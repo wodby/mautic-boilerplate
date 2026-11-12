@@ -1,0 +1,17 @@
+version: 0.1
+
+workflows:
+  main:
+    jobs:
+    - build
+
+jobs:
+  build:
+    steps:
+    - clone
+    - run: wodby ci init $WODBY_BUILD_ID
+    # The buildable Mautic service's Dockerfile runs composer install, which
+    # also installs the npm packages and builds Mautic's assets.
+    - run: wodby ci build
+    - run: wodby ci push
+    - run: wodby ci deploy
